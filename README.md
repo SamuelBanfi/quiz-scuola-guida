@@ -1,4 +1,4 @@
-# quiz-scuola-guida
+# Quiz scuola guida
 
 ### Allievi: Samuel Banfi, Dennis Donofrio
 ### Data di consegna: 23.11.2022

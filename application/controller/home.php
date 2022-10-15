@@ -3,12 +3,10 @@
 
 class Home
 {
-
     public function index()
     {
-		echo ("sono il controller home.php...ma non dovrei mostrare io questo messaggio");
-      
+		require "application/views/templates/header.php";
+        require "application/views/index/index.php";
+        require "application/views/templates/footer.php";
     }
-
-
 }

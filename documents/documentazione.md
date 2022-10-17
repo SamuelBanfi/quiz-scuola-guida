@@ -50,7 +50,7 @@
 
 ### Scopo
 
-Lo scopo del progetto "Questionario patenti" è quello di permettere agli utenti prossimi all'esame teorico per la patente di esercitarsi con le domande ufficiali ASA. Offre la possibilità di rispondere alla domande. In caso di risposta errata c'è la possibilità di apprendere dal proprio errore grazie alla visualizzazione di un video e alla lettura di un documento esplicativo.
+Lo scopo del progetto "Questionario patenti" è quello di permettere agli utenti prossimi all'esame teorico per la patente di esercitarsi con le domande. Offre la possibilità di rispondere alla domande. In caso di risposta errata c'è la possibilità di apprendere dal proprio errore grazie alla visualizzazione di un video e alla lettura di un documento esplicativo.
 
 ## Analisi
 
@@ -60,8 +60,8 @@ Lo scopo del progetto "Questionario patenti" è quello di permettere agli utenti
  | -------- | - |
  | **Nome** | Login degli utenti |
  | **Priorità** | 1 |
- | **Versione** | 1.0 |
- | **Note** | Deve esserci la maschera di login contenente il nome utente e la password. |
+ | **Versione** | 1.1 |
+ | **Note** | Deve esserci la maschera di login contenente la mail e la password. |
 
  | ID | REQ-002 |
  | -------- | - |

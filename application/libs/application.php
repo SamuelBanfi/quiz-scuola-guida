@@ -29,7 +29,7 @@ class Application
                 $this->url_controller->index();
             }
         } else {
-            require './application/controller/home.php';
+            require './application/controller/Home.php';
             $home = new Home();
             $home->index();
         }

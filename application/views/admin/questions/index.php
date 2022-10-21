@@ -2,18 +2,8 @@
     <div class="mt-3"></div>
     <h1 class="text-center">Utenti</h1>
     <div class="mt-3"></div>
-    <a href="<?php echo URL . "admin/register"; ?>" class="btn btn-success">NUOVO UTENTE</a>
+    <a href="<?php echo URL . "admin/register"; ?>" class="btn btn-success">NUOVA DOMANDA</a>
     <div class="mt-3"></div>
-    <?php if (isset($_SESSION["delete_user_successful"])): ?>
-        <div class="alert alert-success" role="alert">
-            Utente eliminato con successo
-        </div>
-    <?php endif; ?>
-    <?php if (isset($_SESSION["delete_user_fail"])): ?>
-        <div class="alert alert-danger" role="alert">
-            Attenzione! Eliminazione utente fallita
-        </div>
-    <?php endif; ?>
     <table class="table">
         <thead>
         <tr>
@@ -25,18 +15,18 @@
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($users as $key => $user): ?>
+        <?php foreach ($questions as $key => $question): ?>
             <tr>
                 <td><?php echo $user->get_name(); ?></td>
                 <td><?php echo $user->get_surname(); ?></td>
                 <td><a href="mailto:<?php echo $user->get_email(); ?>"><?php echo $user->get_email(); ?></a></td>
                 <td>
-                    <a href="<?php echo URL . "admin/edit_user/" . $user->get_email(); ?>" class="btn btn-warning">
+                    <a href="<?php echo URL . "admin/editquestion/" . $user->get_id(); ?>" class="btn btn-warning">
                         MODIFICA
                     </a>
                 </td>
                 <td>
-                    <a href="<?php echo URL . "admin/delete_user/" . $user->get_email(); ?>" class="btn btn-danger">
+                    <a href="<?php echo URL . "admin/deletequestion/" . $user->get_id(); ?>" class="btn btn-danger">
                         ELIMINA
                     </a>
                 </td>

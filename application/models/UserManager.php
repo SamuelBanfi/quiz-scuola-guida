@@ -80,4 +80,76 @@ class UserManager
             return false;
         }
     }
+
+    public static function update($email, $name, $surname, $password) {
+        require_once "application/models/Database.php";
+
+        $password = password_hash($password, PASSWORD_BCRYPT);
+
+        $conn = Database::get_connection();
+        $query = "SELECT password FROM utente WHERE email = :email";
+        $params = array(':email' => $email);
+
+        try {
+            $stmt = $conn->prepare($query);
+            $stmt->execute($params);
+            $result = $stmt->fetchAll();
+            $stored_password = $result[0]["password"];
+
+            $stmt->closeCursor();
+
+            if (!password_verify($password, $stored_password) || strcmp($password, "") == 0) {
+                $password = password_hash($password, PASSWORD_BCRYPT);
+                $query = "UPDATE utente SET nome = :name, cognome = :surname, password = :password";
+                $params = array(
+                    ':name' => $name,
+                    ':surname' => $surname,
+                    ':password' => $password
+                );
+
+                try {
+                    $stmt = $conn->prepare($query);
+                    $stmt->execute($params);
+
+                    return true;
+                } catch (PDOException $e) {
+                    return false;
+                }
+            } else {
+                $query = "UPDATE utente SET nome = :name, cognome = :surname";
+                $params = array(
+                    ':name' => $name,
+                    ':surname' => $surname
+                );
+
+                try {
+                    $stmt = $conn->prepare($query);
+                    $stmt->execute($params);
+
+                    return true;
+                } catch (PDOException $e) {
+                    return false;
+                }
+            }
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public static function delete($email) {
+        require_once "application/models/Database.php";
+
+        $conn = Database::get_connection();
+        $query = "DELETE FROM utente WHERE email = :email";
+        $params = array(':email' => $email);
+
+        try {
+            $stmt = $conn->prepare($query);
+            $stmt->execute($params);
+
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 }

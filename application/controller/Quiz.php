@@ -21,8 +21,17 @@ class Quiz
         session_start();
 
         if ($this->is_logged()) {
+            $this->game(1);
+        }
+    }
+
+    public function game($question_id) {
+        session_start();
+
+        if ($this->is_logged()) {
             require "application/views/templates/header.php";
-            require "application/views/quiz/questions.php";
+            require "application/views/quiz/game/questions.php";
+            require "application/views/quiz/game/question.php";
             require "application/views/templates/footer.php";
         } else {
             header("location: " . URL);

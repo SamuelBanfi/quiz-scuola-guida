@@ -27,7 +27,7 @@
                     </div>
                 </form>
                 <br>
-                <p>Spiegazione: <a href="www.tio.ch">testo</a>, <a href="www.tio.ch">video</a></p>
+                <p>Spiegazione: <a href="../../../../index.php">testo</a>, <a href="../../../../index.php">video</a></p>
             </div>
         </div>
     </div>

@@ -24,7 +24,7 @@
             <input type="submit" value="AGGIUNGI" class="btn btn-success ps-5 pe-5">
         </div>
     </form>
-    <?php if (isset($_SESSION["create_user_successfull"])): ?>
+    <?php if (isset($_SESSION["create_user_successful"])): ?>
         <div class="alert alert-success" role="alert">
             Utente creato con successo
         </div>

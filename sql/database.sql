@@ -10,3 +10,5 @@ CREATE TABLE utente
     password VARCHAR(255) NOT NULL,
     admin TINYINT(1) NOT NULL
 );
+
+INSERT INTO utente VALUES("admin@gmail.com", "Admin", "istrator", "$2y$10$rt2kMEp4Ij2olyRLj2RA/uQ31zOTRbkNCF3fc7cPhAAQJjyYuIHOK", 1);

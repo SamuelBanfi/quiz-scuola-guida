@@ -14,9 +14,11 @@
         <span class="fs-4">Quiz scuola guida</span>
     </a>
     <ul class="nav nav-pills">
-        <li class="nav-item"><a href="<?php echo URL; ?>" class="nav-link">Quiz</a></li>
-        <li class="nav-item"><a href="<?php echo URL . "admin"; ?>" class="nav-link">Admin</a></li>
-        <li class="nav-item"><a href="<?php echo URL . "home/logout"; ?>" class="nav-link">Logout</a></li>
+        <?php if (isset($_SESSION['user'])): ?>
+            <li class="nav-item"><a href="<?php echo URL; ?>" class="nav-link">Quiz</a></li>
+            <li class="nav-item"><a href="<?php echo URL . "admin"; ?>" class="nav-link">Admin</a></li>
+            <li class="nav-item"><a href="<?php echo URL . "home/logout"; ?>" class="nav-link">Logout</a></li>
+        <?php endif; ?>
     </ul>
 </header>
 <div class="mt-3"></div>

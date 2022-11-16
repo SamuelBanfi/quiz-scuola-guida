@@ -1,7 +1,7 @@
 <?php
 
 
-class Quiz
+class Quiz extends Controller
 {
     public function index() {
         require "application/models/User.php";

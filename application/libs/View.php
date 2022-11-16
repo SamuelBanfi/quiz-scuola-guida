@@ -6,11 +6,11 @@
 
 		public function render($name, $noInclude = false){
 			if($noInclude == true){
-				require 'views/' . $name . '.php';
+				require 'application/views/' . $name . '.php';
 			}else{
-				require 'views/header.php';
-				require 'views/' . $name . '.php';
-				require 'views/footer.php';
+				require 'application/views/templates/header.php';
+				require 'application/views/' . $name . '.php';
+				require 'application/views/templates/footer.php';
 			}
 			
 		}

@@ -3,6 +3,10 @@
 
 class Admin extends Controller
 {
+    function __construct() {
+        parent::__construct();
+    }
+
     public function index() {
 		$this->users();
     }
@@ -21,13 +25,13 @@ class Admin extends Controller
             unset($_SESSION["delete_user_fail"]);
         }
 
-        $users = UserManager::get_all_users();
+        $this->view->users = UserManager::get_all_users();
 
         if ($this->is_admin()) {
-            require "application/views/templates/header.php";
-            require "application/views/admin/index.php";
-            require "application/views/admin/users/index.php";
-            require "application/views/templates/footer.php";
+            $this->view->render("templates/header", true);
+            $this->view->render("admin/index", true);
+            $this->view->render("admin/users/index", true);
+            $this->view->render("templates/footer", true);
         } else {
             header("location: " . URL);
         }
@@ -39,10 +43,10 @@ class Admin extends Controller
         session_start();
 
         if ($this->is_admin()) {
-            require "application/views/templates/header.php";
-            require "application/views/admin/index.php";
-            require "application/views/admin/quiz/index.php";
-            require "application/views/templates/footer.php";
+            $this->view->render("templates/header", true);
+            $this->view->render("admin/index", true);
+            $this->view->render("admin/quiz/index", true);
+            $this->view->render("templates/footer", true);
         } else {
             header("location: " . URL);
         }
@@ -54,10 +58,33 @@ class Admin extends Controller
         session_start();
 
         if ($this->is_admin()) {
-            require "application/views/templates/header.php";
-            require "application/views/admin/index.php";
-            require "application/views/admin/questions/index.php";
-            require "application/views/templates/footer.php";
+            $this->view->render("templates/header", true);
+            $this->view->render("admin/index", true);
+            $this->view->render("admin/questions/index", true);
+            $this->view->render("templates/footer", true);
+        } else {
+            header("location: " . URL);
+        }
+    }
+
+    public function newquestion() {
+        require_once "application/models/Question.php";
+
+        session_start();
+
+        if ($this->is_admin()) {
+            if (isset($_SESSION["create_question_successful"])) {
+                unset($_SESSION["create_question_successful"]);
+            }
+
+            if (isset($_SESSION["create_question_fail"])) {
+                unset($_SESSION["create_question_fail"]);
+            }
+
+            $this->view->render("templates/header", true);
+            $this->view->render("admin/index", true);
+            $this->view->render("admin/questions/new_question", true);
+            $this->view->render("templates/footer", true);
         } else {
             header("location: " . URL);
         }
@@ -77,10 +104,10 @@ class Admin extends Controller
                 unset($_SESSION["create_user_fail"]);
             }
 
-            require "application/views/templates/header.php";
-            require "application/views/admin/index.php";
-            require "application/views/admin/users/register.php";
-            require "application/views/templates/footer.php";
+            $this->view->render("templates/header", true);
+            $this->view->render("admin/index", true);
+            $this->view->render("admin/users/register", true);
+            $this->view->render("templates/footer", true);
         } else {
             header("location: " . URL);
         }
@@ -113,10 +140,10 @@ class Admin extends Controller
                 }
             }
 
-            require "application/views/templates/header.php";
-            require "application/views/admin/index.php";
-            require "application/views/admin/users/register.php";
-            require "application/views/templates/footer.php";
+            $this->view->render("templates/header", true);
+            $this->view->render("admin/index", true);
+            $this->view->render("admin/users/register", true);
+            $this->view->render("templates/footer", true);
         } else {
             header("location: " . URL);
         }
@@ -139,10 +166,10 @@ class Admin extends Controller
 
             $user = UserManager::get_user($email);
 
-            require "application/views/templates/header.php";
-            require "application/views/admin/index.php";
-            require "application/views/admin/users/edit.php";
-            require "application/views/templates/footer.php";
+            $this->view->render("templates/header", true);
+            $this->view->render("admin/index", true);
+            $this->view->render("admin/users/edit", true);
+            $this->view->render("templates/footer", true);
         }
     }
 
@@ -184,10 +211,10 @@ class Admin extends Controller
 
             $user = UserManager::get_user($email);
 
-            require "application/views/templates/header.php";
-            require "application/views/admin/index.php";
-            require "application/views/admin/users/edit.php";
-            require "application/views/templates/footer.php";
+            $this->view->render("templates/header", true);
+            $this->view->render("admin/index", true);
+            $this->view->render("admin/users/edit", true);
+            $this->view->render("templates/footer", true);
         } else {
             header("location: " . URL);
         }
@@ -199,28 +226,32 @@ class Admin extends Controller
 
         session_start();
 
-        if ($this->is_admin()) {
-            if (UserManager::delete($email)) {
-                $_SESSION["delete_user_successful"] = true;
-
-                if (isset($_SESSION["delete_user_fail"])) {
-                    unset($_SESSION["delete_user_fail"]);
+        if (strcmp($email, $_SESSION['user']->get_email()) != 0) {
+            if ($this->is_admin()) {
+                if (UserManager::delete($email)) {
+                    $_SESSION["delete_user_successful"] = true;
+    
+                    if (isset($_SESSION["delete_user_fail"])) {
+                        unset($_SESSION["delete_user_fail"]);
+                    }
+                } else {
+                    $_SESSION["delete_user_fail"] = true;
+    
+                    if (isset($_SESSION["delete_user_successful"])) {
+                        unset($_SESSION["delete_user_successful"]);
+                    }
                 }
+    
+                $this->view->users = UserManager::get_all_users();
+    
+                $this->view->render("templates/header", true);
+                $this->view->render("admin/index", true);
+                $this->view->render("admin/users/index", true);
+                $this->view->render("templates/footer", true);
             } else {
-                $_SESSION["delete_user_fail"] = true;
-
-                if (isset($_SESSION["delete_user_successful"])) {
-                    unset($_SESSION["delete_user_successful"]);
-                }
+                header("location: " . URL);
             }
-
-            $users = UserManager::get_all_users();
-
-            require "application/views/templates/header.php";
-            require "application/views/admin/index.php";
-            require "application/views/admin/users/index.php";
-            require "application/views/templates/footer.php";
-        } else {
+        }else{
             header("location: " . URL);
         }
     }

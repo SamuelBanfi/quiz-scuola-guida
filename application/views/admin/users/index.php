@@ -25,7 +25,7 @@
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($users as $key => $user): ?>
+        <?php foreach ($this->users as $key => $user): ?>
             <tr>
                 <td><?php echo $user->get_name(); ?></td>
                 <td><?php echo $user->get_surname(); ?></td>
@@ -36,9 +36,11 @@
                     </a>
                 </td>
                 <td>
-                    <a href="<?php echo URL . "admin/delete_user/" . $user->get_email(); ?>" class="btn btn-danger">
-                        ELIMINA
-                    </a>
+                    <?php if (strcmp($user->get_email(), $_SESSION['user']->get_email()) != 0): ?>
+                        <a href="<?php echo URL . "admin/delete_user/" . $user->get_email(); ?>" class="btn btn-danger">
+                            ELIMINA
+                        </a>
+                    <?php endif; ?>
                 </td>
             </tr>
         <?php endforeach; ?>

@@ -3,15 +3,17 @@
 
 class Home extends Controller
 {
+    function __construct() {
+        parent::__construct();
+    }
+
     public function index() {
         session_start();
 
         if ($this->is_logged()) {
             header("location: " . URL . "quiz");
         } else {
-            require "application/views/templates/header.php";
-            require "application/views/login/index.php";
-            require "application/views/templates/footer.php";
+            $this->view->render("login/index");
         }
     }
 
@@ -29,9 +31,7 @@ class Home extends Controller
             if (!UserManager::check_login($email, $password)) {
                 $_SESSION["login_error"] = true;
 
-                require "application/views/templates/header.php";
-                require "application/views/login/index.php";
-                require "application/views/templates/footer.php";
+                $this->view->render("login/index");
             } else {
                 if (isset($_SESSION["login_error"])) {
                     unset($_SESSION["login_error"]);

@@ -1,21 +1,21 @@
 <div class="container">
     <div class="mt-3"></div>
-    <h1 class="text-center">Utenti</h1>
+    <h1 class="text-center">Domande</h1>
     <div class="mt-3"></div>
-    <a href="<?php echo URL . "admin/register"; ?>" class="btn btn-success">NUOVA DOMANDA</a>
+    <a href="<?php echo URL . "admin/newquestion"; ?>" class="btn btn-success">NUOVA DOMANDA</a>
     <div class="mt-3"></div>
     <table class="table">
         <thead>
         <tr>
-            <th>Nome</th>
-            <th>Cognome</th>
-            <th>E-Mail</th>
+            <th>Domanda</th>
+            <th>Spiegazione testo</th>
+            <th>Spiegazione video</th>
             <th>Modifica</th>
             <th>Elimina</th>
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($questions as $key => $question): ?>
+        <?php foreach ($this->questions as $key => $question): ?>
             <tr>
                 <td><?php echo $user->get_name(); ?></td>
                 <td><?php echo $user->get_surname(); ?></td>

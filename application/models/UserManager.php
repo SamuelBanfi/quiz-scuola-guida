@@ -100,11 +100,12 @@ class UserManager
 
             if (!password_verify($password, $stored_password) || strcmp($password, "") == 0) {
                 $password = password_hash($password, PASSWORD_BCRYPT);
-                $query = "UPDATE utente SET nome = :name, cognome = :surname, password = :password";
+                $query = "UPDATE utente SET nome = :name, cognome = :surname, password = :password WHERE email = :email";
                 $params = array(
                     ':name' => $name,
                     ':surname' => $surname,
-                    ':password' => $password
+                    ':password' => $password,
+                    ':email' => $email
                 );
 
                 try {
@@ -116,10 +117,11 @@ class UserManager
                     return false;
                 }
             } else {
-                $query = "UPDATE utente SET nome = :name, cognome = :surname";
+                $query = "UPDATE utente SET nome = :name, cognome = :surname WHERE email = :email";
                 $params = array(
                     ':name' => $name,
-                    ':surname' => $surname
+                    ':surname' => $surname,
+                    ':email' => $email
                 );
 
                 try {

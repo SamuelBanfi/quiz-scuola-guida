@@ -54,8 +54,12 @@ class Admin extends Controller
 
     public function questions() {
         require_once "application/models/User.php";
+        require_once "application/models/Question.php";
+        require_once "application/models/QuestionManager.php";
 
         session_start();
+
+        $this->view->questions = QuestionManager::get_all_questions();
 
         if ($this->is_admin()) {
             $this->view->render("templates/header", true);
@@ -68,6 +72,7 @@ class Admin extends Controller
     }
 
     public function newquestion() {
+        require_once "application/models/User.php";
         require_once "application/models/Question.php";
 
         session_start();
@@ -143,6 +148,49 @@ class Admin extends Controller
             $this->view->render("templates/header", true);
             $this->view->render("admin/index", true);
             $this->view->render("admin/users/register", true);
+            $this->view->render("templates/footer", true);
+        } else {
+            header("location: " . URL);
+        }
+    }
+
+    public function add_question() {
+        require "application/models/QuestionManager.php";
+        require_once "application/models/User.php";
+        require_once "application/models/Question.php";
+
+        session_start();
+
+        if ($this->is_admin()) {
+            $question = $_POST["question"];
+            $answer_1 = $_POST["answer_1"];
+            $answer_2 = $_POST["answer_2"];
+            $answer_3 = $_POST["answer_3"];
+            $correct_answer = $_POST["correct_answer"];
+            $textual_explanation = $_FILES["textual_explanation"];
+            $video_explanation = $_FILES["video_explanation"];
+
+            $path_textual = $this->save_file($textual_explanation, "application/textual_explanations/");
+            $path_video = $this->save_file($video_explanation, "application/video_explanations/");
+
+            if (QuestionManager::add($question, $answer_1, $answer_2, $answer_3,
+                $correct_answer, $path_textual, $path_video)) {
+                $_SESSION["create_question_successful"] = true;
+
+                if (isset($_SESSION["create_question_fail"])) {
+                    unset($_SESSION["create_question_fail"]);
+                }
+            } else {
+                $_SESSION["create_question_fail"] = true;
+
+                if (isset($_SESSION["create_question_successful"])) {
+                    unset($_SESSION["create_question_successful"]);
+                }
+            }
+
+            $this->view->render("templates/header", true);
+            $this->view->render("admin/index", true);
+            $this->view->render("admin/questions/new_question", true);
             $this->view->render("templates/footer", true);
         } else {
             header("location: " . URL);
@@ -263,5 +311,34 @@ class Admin extends Controller
         } else {
             return false;
         }
+    }
+
+    private function save_file($file, $directory)
+    {
+        $path = pathinfo($file["name"]);
+        $filename = $this->generate_name();
+        $ext = $path["extension"];
+        $temp_name = $file["tmp_name"];
+        $new_name = $directory . $filename . "." . $ext;
+
+        if (!file_exists($new_name)) {
+            move_uploaded_file($temp_name, $new_name);
+
+            return $new_name;
+        } else {
+            return null;
+        }
+    }
+
+    private function generate_name()
+    {
+        $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $name = "";
+
+        for ($i = 0; $i < 20; $i++) {
+            $name .= $characters[rand(0, strlen($characters) - 1)];
+        }
+
+        return $name;
     }
 }

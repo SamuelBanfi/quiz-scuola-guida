@@ -12,3 +12,15 @@ CREATE TABLE utente
 );
 
 INSERT INTO utente VALUES("admin@gmail.com", "Admin", "istrator", "$2y$10$rt2kMEp4Ij2olyRLj2RA/uQ31zOTRbkNCF3fc7cPhAAQJjyYuIHOK", 1);
+
+CREATE TABLE domanda
+(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    testo TEXT NOT NULL,
+    risposta_1 VARCHAR(200) NOT NULL,
+    risposta_2 VARCHAR(200) NOT NULL,
+    risposta_3 VARCHAR(200) NOT NULL,
+    risposta_corretta INT NOT NULL,
+    spiegazione_testo VARCHAR(200) NOT NULL,
+    spiegazione_video VARCHAR(200) NOT NULL
+);

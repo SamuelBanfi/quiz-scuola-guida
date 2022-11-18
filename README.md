@@ -18,9 +18,10 @@ un testo con la spiegazione della domanda ma soprattutto per aiutare l'utente
 a trovare la risposta corretta.
 
 ### Documentazione
-La documentazione di questo progetto è visionabile in questa repository cliccando su questo link: [documentazione]()
+La documentazione di questo progetto è visionabile in questa repository cliccando su questo link: [documentazione](documents/documentazione.md)
 
 ### Allegati
+- QdC: mandato
 - Documentazione
 - Codice sorgente
 - Demo

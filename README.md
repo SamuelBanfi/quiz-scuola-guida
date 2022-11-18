@@ -15,13 +15,18 @@ di studiare per l'asame teorico della patente. L'amministratore può selezionare
 i limiti di tempo e il numero massimo di errori. Inoltre può creare altri
 utenti e domande. Durante il quiz l'utente potrà visionare un video o leggere
 un testo con la spiegazione della domanda ma soprattutto per aiutare l'utente
-a trovare la risposta corretta.
+a trovare la risposta corretta. Un punto importà consiste nel fatto che non
+bisogna aspettare la fine del quiz per sapere se si ha risposto correttamente 
+ad una domanda, bensì viene specificato subito una volta risposto.
 
 ### Documentazione
-La documentazione di questo progetto è visionabile in questa repository cliccando su questo link: [documentazione](documents/documentazione.md)
+La documentazione di questo progetto è visionabile cliccando: [documentazione](documents/documentazione.md)
+
+### Database
+Questo progetto sfruttta molte delle potenzialità di `MySQL` tra le quali troviamo le `stored procedures`.
 
 ### Allegati
 - [QdC: mandato](documents/documentazione.pdf)
 - [Documentazione](documents/questionario_patenti.pdf)
-- [Codice sorgente]()
+- [Codice sorgente](application)
 - Demo

@@ -8,6 +8,9 @@
 - Samuel Banfi: sono uno studente appassionato di programmazione e montaggio video.
 - Dennis Donofrio: sono uno studente al quarto anno presso la scuola d'arti e mestieri.
 
+### Committente
+Questo è il progetto di semestre del quarto anno commissionato dalla scuola d'arti e mestieri con sede a Trevano. 
+
 ### Descrizione del progetto
 Questo progetto è realizzato in PHP ed utilizza la struttura MVC.<br>
 Lo scopo di questo progetto consiste nel dare la possibilità ai giovani

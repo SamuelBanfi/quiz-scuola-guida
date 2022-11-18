@@ -21,7 +21,7 @@ a trovare la risposta corretta.
 La documentazione di questo progetto è visionabile in questa repository cliccando su questo link: [documentazione](documents/documentazione.md)
 
 ### Allegati
-- QdC: mandato
-- Documentazione
-- Codice sorgente
+- [QdC: mandato](documents/documentazione.pdf)
+- [Documentazione](documents/questionario_patenti.pdf)
+- [Codice sorgente]()
 - Demo

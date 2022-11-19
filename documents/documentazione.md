@@ -403,6 +403,8 @@ Nella sezione admin è possibile gestire le domande. Si possono aggiungere, modi
 </table>
 ```
 
+<br>
+
 #### Creazione domande
 
 Per la creazione delle domande l'amministratore deve compilare un form con tutti i campi della tabella `domanda`. Una volta compilato il form viene richiamata la funzione `add` della classe `QuestionManager`. Questa funzione esegue una query di inserimento nel database. Viene effettuato un controllo per verificare se sono stati inseriti tutti i campi. Se non vengono compilati tutti i campi viene mostrato un messaggio di errore. In caso contrario viene inserita la domanda nel database e viene effettuato un filtraggio dei campi per evitare attacchi XSS (`Cross Site Scripting`). Viene effettuato un controllo per verificare se la domanda è stata inserita correttamente. Se la domanda è stata inserita correttamente viene mostrato un messaggio di successo. In caso contrario viene mostrato un messaggio di errore.

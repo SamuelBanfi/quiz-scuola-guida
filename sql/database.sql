@@ -21,6 +21,13 @@ CREATE TABLE domanda
     risposta_2 VARCHAR(200) NOT NULL,
     risposta_3 VARCHAR(200) NOT NULL,
     risposta_corretta INT NOT NULL,
+    immagine VARCHAR(200) NOT NULL,
     spiegazione_testo VARCHAR(200) NOT NULL,
     spiegazione_video VARCHAR(200) NOT NULL
+);
+
+CREATE TABLE impostazioni
+(
+    limite_tempo INT NOT NULL,
+    limite_errori INT NOT NULL
 );

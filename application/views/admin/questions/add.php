@@ -5,6 +5,9 @@
         <label for="question" class="form-label">Domanda</label>
         <textarea class="form-control" id="question" name="question"></textarea>
         <br>
+        <label for="image" class="form-label">Immagine</label>
+        <input type="file" class="form-control" id="image" name="image" required>
+        <br>
         <label for="answer_1" class="form-label">Risposta 1</label>
         <input type="text" class="form-control" id="answer_1" name="answer_1" required>
         <br>
@@ -20,7 +23,7 @@
         <label for="textual_explanation" class="form-label">Spigazione testuale</label>
         <input type="file" class="form-control" id="textual_explanation" name="textual_explanation" required>
         <br>
-        <label for="video_explaination" class="form-label">Spigazione video</label>
+        <label for="video_explanation" class="form-label">Spigazione video</label>
         <input type="file" class="form-control" id="video_explanation" name="video_explanation" required>
         <br>
         <div class="d-flex justify-content-center">

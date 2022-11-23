@@ -15,10 +15,16 @@ class QuestionManager
         $questions = array();
 
         foreach ($result as $key => $question) {
-            $questions[] = new Question($question["id"], $question["testo"],
-                $question["risposta_1"], $question["risposta_2"],
-                $question["risposta_3"], $question["risposta_corretta"],
-                $question["spiegazione_testo"], $question["spiegazione_video"]
+            $questions[] = new Question(
+                $question["id"],
+                $question["testo"],
+                $question["immagine"],
+                $question["risposta_1"],
+                $question["risposta_2"],
+                $question["risposta_3"],
+                $question["risposta_corretta"],
+                $question["spiegazione_testo"],
+                $question["spiegazione_video"]
             );
         }
 
@@ -39,23 +45,24 @@ class QuestionManager
         return null;
     }
 
-    public static function add($question, $answer_1, $answer_2, $answer_3,
-                               $correct_answer, $textual_explaination, $video_explaination) {
+    public static function add($question, $image, $answer_1, $answer_2, $answer_3,
+                               $correct_answer, $textual_explanation, $video_explanation) {
         require_once "application/models/Database.php";
 
         $conn = Database::get_connection();
-        $query = "INSERT INTO domanda(testo, risposta_1, risposta_2, risposta_3,
+        $query = "INSERT INTO domanda(testo, immagine, risposta_1, risposta_2, risposta_3,
                     risposta_corretta, spiegazione_testo, spiegazione_video) 
-                    VALUES(:question, :answer_1, :answer_2, :answer_3, 
-                           :correct_answer, :textual_explaination, :video_explaination)";
+                    VALUES(:question, :image, :answer_1, :answer_2, :answer_3, 
+                           :correct_answer, :textual_explanation, :video_explanation)";
         $params = array(
             ':question' => $question,
-            ':answer_1' => $answer_3,
+            ':image' => $image,
+            ':answer_1' => $answer_1,
             ':answer_2' => $answer_2,
             ':answer_3' => $answer_3,
             ':correct_answer' => $correct_answer,
-            'textual_explaination' => $textual_explaination,
-            'video_explaination' => $video_explaination
+            'textual_explanation' => $textual_explanation,
+            'video_explanation' => $video_explanation
         );
 
         try {
@@ -63,7 +70,44 @@ class QuestionManager
             $stmt->execute($params);
 
             return true;
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public static function delete($id) {
+        require_once "application/models/Database.php";
+
+        $conn = Database::get_connection();
+        $query = "SELECT * FROM domanda WHERE id = :id";
+        $params = array(':id' => $id);
+
+        try {
+            $stmt = $conn->prepare($query);
+            $stmt->execute($params);
+
+            $result = $stmt->fetchAll();
+            $files_to_delete = array();
+
+            if (count($result) == 1) {
+                $files_to_delete[] = $result[0]["immagine"];
+                $files_to_delete[] = $result[0]["spiegazione_testo"];
+                $files_to_delete[] = $result[0]["spiegazione_video"];
+
+                $stmt->closeCursor();
+                $query = "DELETE FROM domanda WHERE id = :id";
+
+                $stmt = $conn->prepare($query);
+                $stmt->execute($params);
+
+                // Unlink related question files (delete from server)
+                for ($i = 0; $i < count($files_to_delete); $i++) {
+                    if (!unlink($files_to_delete[$i])) {
+                        return false;
+                    }
+                }
+            }
+        } catch (PDOException $e) {
             return false;
         }
     }

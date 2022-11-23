@@ -4,16 +4,18 @@ class Question
 {
     private $id;
     private $question;
+    private $image;
     private $answer_1;
     private $answer_2;
     private $answer_3;
     private $correct_answer;
-    private $textual_explaination;
-    private $video_explaination;
+    private $textual_explanation;
+    private $video_explanation;
 
     /**
      * @param $id
      * @param $question
+     * @param $image
      * @param $answer_1
      * @param $answer_2
      * @param $answer_3
@@ -21,16 +23,18 @@ class Question
      * @param $textual_explaination
      * @param $video_explaination
      */
-    public function __construct($id, $question, $answer_1, $answer_2, $answer_3, $correct_answer, $textual_explaination, $video_explaination)
+    public function __construct($id, $question, $image, $answer_1, $answer_2, $answer_3,
+                                $correct_answer, $textual_explanation, $video_explanation)
     {
         $this->id = $id;
         $this->question = $question;
+        $this->image = $image;
         $this->answer_1 = $answer_1;
         $this->answer_2 = $answer_2;
         $this->answer_3 = $answer_3;
         $this->correct_answer = $correct_answer;
-        $this->textual_explaination = $textual_explaination;
-        $this->video_explaination = $video_explaination;
+        $this->textual_explanation = $textual_explanation;
+        $this->video_explanation = $video_explanation;
     }
 
     /**
@@ -63,6 +67,22 @@ class Question
     public function set_question($question)
     {
         $this->question = $question;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function get_image()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function set_image($image)
+    {
+        $this->image = $image;
     }
 
     /**
@@ -132,32 +152,32 @@ class Question
     /**
      * @return mixed
      */
-    public function get_textual_explaination()
+    public function get_textual_explanation()
     {
-        return $this->textual_explaination;
+        return $this->textual_explanation;
     }
 
     /**
-     * @param mixed $textual_explaination
+     * @param mixed $textual_explanation
      */
-    public function set_textual_explaination($textual_explaination)
+    public function set_textual_explanation($textual_explanation)
     {
-        $this->textual_explaination = $textual_explaination;
+        $this->textual_explanation = $textual_explanation;
     }
 
     /**
      * @return mixed
      */
-    public function get_video_explaination()
+    public function get_video_explanation()
     {
-        return $this->video_explaination;
+        return $this->video_explanation;
     }
 
     /**
-     * @param mixed $video_explaination
+     * @param mixed $video_explanation
      */
-    public function set_video_explaination($video_explaination)
+    public function set_video_explanation($video_explanation)
     {
-        $this->video_explaination = $video_explaination;
+        $this->video_explanation = $video_explanation;
     }
 }

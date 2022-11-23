@@ -59,6 +59,14 @@ class Admin extends Controller
 
         session_start();
 
+        if (isset($_SESSION["delete_question_successful"])) {
+            unset($_SESSION["delete_question_successful"]);
+        }
+
+        if (isset($_SESSION["delete_question_fail"])) {
+            unset($_SESSION["delete_question_fail"]);
+        }
+
         $this->view->questions = QuestionManager::get_all_questions();
 
         if ($this->is_admin()) {
@@ -88,7 +96,7 @@ class Admin extends Controller
 
             $this->view->render("templates/header", true);
             $this->view->render("admin/index", true);
-            $this->view->render("admin/questions/new_question", true);
+            $this->view->render("admin/questions/add", true);
             $this->view->render("templates/footer", true);
         } else {
             header("location: " . URL);
@@ -163,6 +171,7 @@ class Admin extends Controller
 
         if ($this->is_admin()) {
             $question = $_POST["question"];
+            $image = $_FILES["image"];
             $answer_1 = $_POST["answer_1"];
             $answer_2 = $_POST["answer_2"];
             $answer_3 = $_POST["answer_3"];
@@ -170,10 +179,11 @@ class Admin extends Controller
             $textual_explanation = $_FILES["textual_explanation"];
             $video_explanation = $_FILES["video_explanation"];
 
+            $path_image = $this->save_file($image, "application/quiz_images/");
             $path_textual = $this->save_file($textual_explanation, "application/textual_explanations/");
             $path_video = $this->save_file($video_explanation, "application/video_explanations/");
 
-            if (QuestionManager::add($question, $answer_1, $answer_2, $answer_3,
+            if (QuestionManager::add($question, $path_image, $answer_1, $answer_2, $answer_3,
                 $correct_answer, $path_textual, $path_video)) {
                 $_SESSION["create_question_successful"] = true;
 
@@ -190,7 +200,7 @@ class Admin extends Controller
 
             $this->view->render("templates/header", true);
             $this->view->render("admin/index", true);
-            $this->view->render("admin/questions/new_question", true);
+            $this->view->render("admin/questions/add", true);
             $this->view->render("templates/footer", true);
         } else {
             header("location: " . URL);
@@ -268,6 +278,31 @@ class Admin extends Controller
         }
     }
 
+    public function edit_question($id) {
+        require "application/models/QuestionManager.php";
+        require_once "application/models/User.php";
+        require_once "application/models/Question.php";
+
+        session_start();
+
+        if ($this->is_admin()) {
+            if (isset($_SESSION["update_question_successful"])) {
+                unset($_SESSION["update_question_successful"]);
+            }
+
+            if (isset($_SESSION["update_question_fail"])) {
+                unset($_SESSION["update_question_fail"]);
+            }
+
+            $this->view->question = QuestionManager::get_question($id);
+
+            $this->view->render("templates/header", true);
+            $this->view->render("admin/index", true);
+            $this->view->render("admin/questions/edit", true);
+            $this->view->render("templates/footer", true);
+        }
+    }
+
     public function delete_user($email) {
         require "application/models/UserManager.php";
         require_once "application/models/User.php";
@@ -300,6 +335,38 @@ class Admin extends Controller
                 header("location: " . URL);
             }
         }else{
+            header("location: " . URL);
+        }
+    }
+
+    public function delete_question($id) {
+        require "application/models/QuestionManager.php";
+        require_once "application/models/User.php";
+
+        session_start();
+
+        if ($this->is_admin()) {
+            if (QuestionManager::delete($id)) {
+                $_SESSION["delete_question_successful"] = true;
+
+                if (isset($_SESSION["delete_question_fail"])) {
+                    unset($_SESSION["delete_question_fail"]);
+                }
+            } else {
+                $_SESSION["delete_question_fail"] = true;
+
+                if (isset($_SESSION["delete_question_successful"])) {
+                    unset($_SESSION["delete_question_successful"]);
+                }
+            }
+
+            $this->view->questions = QuestionManager::get_all_questions();
+
+            $this->view->render("templates/header", true);
+            $this->view->render("admin/index", true);
+            $this->view->render("admin/questions/index", true);
+            $this->view->render("templates/footer", true);
+        } else {
             header("location: " . URL);
         }
     }

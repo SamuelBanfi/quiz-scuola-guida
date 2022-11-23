@@ -76,7 +76,7 @@ class UserManager
             $stmt->execute($params);
 
             return true;
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
             return false;
         }
     }

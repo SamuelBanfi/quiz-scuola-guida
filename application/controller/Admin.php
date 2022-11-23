@@ -303,6 +303,51 @@ class Admin extends Controller
         }
     }
 
+    // TODO: Finire i controlli per l'update dell'utente.
+    public function update_question() {
+        require "application/models/QuestionManager.php";
+        require_once "application/models/Question.php";
+
+        session_start();
+
+        if ($this->is_admin()) {
+            $question = $_POST["question"];
+            $image = $_FILES["image"];
+            $answer_1 = $_POST["answer_1"];
+            $answer_2 = $_POST["answer_2"];
+            $answer_3 = $_POST["answer_3"];
+            $correct_answer = $_POST["correct_answer"];
+            $textual_explanation = $_FILES["textual_explanation"];
+            $video_explanation = $_FILES["video_explanation"];
+
+            $path_image = $this->save_file($image, "application/quiz_images/");
+            $path_textual = $this->save_file($textual_explanation, "application/textual_explanations/");
+            $path_video = $this->save_file($video_explanation, "application/video_explanations/");
+
+            if (QuestionManager::add($question, $path_image, $answer_1, $answer_2, $answer_3,
+                $correct_answer, $path_textual, $path_video)) {
+                $_SESSION["create_question_successful"] = true;
+
+                if (isset($_SESSION["create_question_fail"])) {
+                    unset($_SESSION["create_question_fail"]);
+                }
+            } else {
+                $_SESSION["create_question_fail"] = true;
+
+                if (isset($_SESSION["create_question_successful"])) {
+                    unset($_SESSION["create_question_successful"]);
+                }
+            }
+
+            $this->view->render("templates/header", true);
+            $this->view->render("admin/index", true);
+            $this->view->render("admin/questions/add", true);
+            $this->view->render("templates/footer", true);
+        } else {
+            header("location: " . URL);
+        }
+    }
+
     public function delete_user($email) {
         require "application/models/UserManager.php";
         require_once "application/models/User.php";

@@ -31,6 +31,18 @@ class QuestionManager
         return $questions;
     }
 
+    public static function get_count_questions() {
+        require_once "application/models/Database.php";
+        require_once "application/models/Question.php";
+
+        $conn = Database::get_connection();
+        $query = "SELECT COUNT(1) FROM domanda";
+
+        $stmt = $conn->query($query);
+        $result = $stmt->fetchAll();
+        return $result;
+    }
+
     public static function get_question($id) {
         require_once "application/models/Database.php";
 

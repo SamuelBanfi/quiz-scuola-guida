@@ -9,9 +9,9 @@ class Quiz extends Controller
         session_start();
 
         if ($this->is_logged()) {
-            require "application/views/templates/header.php";
-            require "application/views/quiz/index.php";
-            require "application/views/templates/footer.php";
+            $this->view->render("templates/header", true);
+            $this->view->render("quiz/index", true);
+            $this->view->render("templates/footer", true);
         } else {
             header("location: " . URL);
         }
@@ -21,18 +21,41 @@ class Quiz extends Controller
         session_start();
 
         if ($this->is_logged()) {
+            require_once 'application/models/QuestionManager.php';
+
+            if (QuestionManager::get_count_questions()[0][0] < 50) {
+                $_SESSION['error_question_count'] = true;
+                header("location: " . URL);
+            }
+
+            $_SESSION["questions"] = QuestionManager::get_all_questions();
+            unset($_SESSION["error_question_count"]);
+            
             $this->game(1);
         }
     }
 
-    public function game($question_id) {
-        session_start();
+    public function game($id) {
+        if(!isset($_SESSION)){
+            session_start();
+        }
 
         if ($this->is_logged()) {
-            require "application/views/templates/header.php";
-            require "application/views/quiz/game/questions.php";
-            require "application/views/quiz/game/question.php";
-            require "application/views/templates/footer.php";
+            if (!isset($_SESSION["questions"])) {
+                header("location: " . URL);   
+            }
+
+            if ($id < 0 || $id > 50) {
+                header("location: " . URL);
+            }
+
+            $this->view->id = $id;
+            $this->view->question = $_SESSION["questions"][$id - 1];
+
+            $this->view->render("templates/header", true);
+            $this->view->render("quiz/game/questions", true);
+            $this->view->render("quiz/game/question", true);
+            $this->view->render("templates/footer", true);
         } else {
             header("location: " . URL);
         }

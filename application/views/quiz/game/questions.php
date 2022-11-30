@@ -6,7 +6,7 @@
             <tr>
                 <?php for ($j = 0; $j < 10; $j++): ?>
                     <td>
-                        <?php if ($counter == $question_id): ?>
+                        <?php if ($counter == $this->id): ?>
                             <a href="<?php echo URL . "quiz/game/" . $counter; ?>" class="btn btn-primary">
                                 <?php echo $counter; ?>
                             </a>

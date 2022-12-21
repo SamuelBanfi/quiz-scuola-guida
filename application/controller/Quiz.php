@@ -56,11 +56,17 @@ class Quiz extends Controller
             $this->view->id = $id;
             $this->view->question = $_SESSION["questions"][$id - 1];
 
+            echo "<pre>";
+            //var_dump($_SESSION['answ']);
+            echo "</pre>";
+
             $this->view->render("templates/header", true);
             $this->view->render("quiz/game/questions", true);
             $this->view->render("quiz/game/question", true);
             $this->view->render("quiz/game/changeQuestion", true);
             $this->view->render("templates/footer", true);
+
+            
         } else {
             header("location: " . URL);
         }

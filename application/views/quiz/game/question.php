@@ -1,33 +1,37 @@
 <div class="container">
     <div class="d-flex">
-        <div class="image">
-
+        <div class="image" style="flex: 1">
+            <img class="img-thumbnail" src="<?php echo URL . $this->question->get_image(); ?>" alt="immagine">
         </div>
-        <div class="question">
+        <div class="question ms-5" style="flex: 1">
             <div class="time">
-                <form action="" method="post">
-                    <p>Domanda</p>
+                <div>
+                    <p><?php echo $this->question->get_question(); ?></p>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" value="40" id="r1" name="q-1" checked>
+                        <input class="form-check-input" type="radio" id="1" name="q-1" onchange="setQuestion(this, <?php echo $this->id; ?>, '<?php echo URL; ?>/quiz/set_question')" <?php echo ($_SESSION["questions"][$this->id]["answer_id"] == 1 ? "checked" : ""); ?>>
                         <label class="form-check-label" for="r1">
-                            Gino
+                            <?php echo $this->question->get_answer_1(); ?>
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" value="20" id="r2" name="q-1">
+                        <input class="form-check-input" type="radio" id="2" name="q-1" onchange="setQuestion(this, <?php echo $this->id; ?>, '<?php echo URL; ?>/quiz/set_question')" <?php echo ($_SESSION["questions"][$this->id]["answer_id"] == 2 ? "checked" : ""); ?>>
                         <label class="form-check-label" for="r2">
-                            Pane
+                            <?php echo $this->question->get_answer_2(); ?>
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" value="-1" id="r3" name="q-1">
+                        <input class="form-check-input" type="radio" id="3" name="q-1" onchange="setQuestion(this, <?php echo $this->id; ?>, '<?php echo URL; ?>/quiz/set_question')" <?php echo ($_SESSION["questions"][$this->id]["answer_id"] == 3 ? "checked" : ""); ?>>
                         <label class="form-check-label" for="r3">
-                            Vino
+                            <?php echo $this->question->get_answer_3(); ?>
                         </label>
                     </div>
-                </form>
+                </div>
                 <br>
-                <p>Spiegazione: <a href="../../../../index.php">testo</a>, <a href="../../../../index.php">video</a></p>
+                <p>
+                    Spiegazione:
+                    <a href="<?php echo URL . $this->question->get_textual_explanation(); ?>">testo</a>,
+                    <a href="<?php echo URL . $this->question->get_video_explanation(); ?>">video</a>
+                </p>
             </div>
         </div>
     </div>

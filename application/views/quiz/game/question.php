@@ -8,19 +8,19 @@
                 <div>
                     <p><?php echo $this->question->get_question(); ?></p>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" id="1" name="q-1" onchange="setQuestion(this, <?php echo $this->id; ?>, '<?php echo URL; ?>/quiz/set_question')" <?php echo (isset($_SESSION["answ"][$this->id]) && $_SESSION["answ"][$this->id] == 1 ? "checked" : ""); ?>>
+                        <input class="form-check-input" type="radio" id="1" name="q-1" onclick="setQuestion(this, <?php echo $this->id; ?>, '<?php echo URL; ?>/quiz/set_question')" <?php echo $_SESSION["answ"][$this->id - 1] == 1 ? "checked" : ""; ?>>
                         <label class="form-check-label" for="r1">
                             <?php echo $this->question->get_answer_1(); ?>
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" id="2" name="q-1" onchange="setQuestion(this, <?php echo $this->id; ?>, '<?php echo URL; ?>/quiz/set_question')" <?php echo (isset($_SESSION["answ"][$this->id]) && $_SESSION["answ"][$this->id] == 2 ? "checked" : ""); ?>>
+                        <input class="form-check-input" type="radio" id="2" name="q-1" onclick="setQuestion(this, <?php echo $this->id; ?>, '<?php echo URL; ?>/quiz/set_question')" <?php echo $_SESSION["answ"][$this->id - 1] == 2 ? "checked" : ""; ?>>
                         <label class="form-check-label" for="r2">
                             <?php echo $this->question->get_answer_2(); ?>
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" id="3" name="q-1" onchange="setQuestion(this, <?php echo $this->id; ?>, '<?php echo URL; ?>/quiz/set_question')" <?php echo (isset($_SESSION["answ"][$this->id]) && $_SESSION["answ"][$this->id] == 3 ? "checked" : ""); ?>>
+                        <input class="form-check-input" type="radio" id="3" name="q-1" onclick="setQuestion(this, <?php echo $this->id; ?>, '<?php echo URL; ?>/quiz/set_question')" <?php echo $_SESSION["answ"][$this->id - 1] == 3 ? "checked" : ""; ?>>
                         <label class="form-check-label" for="r3">
                             <?php echo $this->question->get_answer_3(); ?>
                         </label>

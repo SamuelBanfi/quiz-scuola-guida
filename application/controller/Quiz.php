@@ -29,7 +29,16 @@ class Quiz extends Controller
                 header("location: " . URL);
             }
 
-            $_SESSION["questions"] = QuestionManager::get_all_questions();
+            $questions = QuestionManager::get_all_questions();
+            shuffle($questions);
+            $_SESSION["questions"] = $questions;
+
+            $answers = array();
+            for ($i = 0; $i < 50; $i++) {
+                $answers[] = -1;
+            }
+            $_SESSION["answ"] = $answers;
+
             unset($_SESSION["error_question_count"]);
 
             $this->game(1);
@@ -73,14 +82,27 @@ class Quiz extends Controller
     }
 
     public function stop() {
+        require_once 'application/models/Question.php';
 
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+
+        $this->view->questions = $_SESSION["questions"];
+        $this->view->answers = $_SESSION["answ"];
+
+        $this->view->render("quiz/game/report");
     }
 
     public function set_question() {
         require_once 'application/models/Question.php';
         require_once 'application/models/QuestionManager.php';
 
-        QuestionManager::set_answer($_POST['qid'], $_POST['aid']);
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+
+        QuestionManager::set_answer($_POST['qid'] - 1, $_POST['aid']);
     }
 
     private function is_logged() {

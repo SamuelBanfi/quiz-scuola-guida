@@ -40,6 +40,7 @@ class QuestionManager
 
         $stmt = $conn->query($query);
         $result = $stmt->fetchAll();
+
         return $result;
     }
 
@@ -125,11 +126,13 @@ class QuestionManager
     }
 
     public static function set_answer($question_id, $answer_id) {
-        if (!empty($question_id) && !empty($answer_id)) {
-            if ($question_id >= 0 && $question_id <= 49) {
-                if ($question_id >= 1 && $question_id <= 3)
-                $_SESSION["answ"][$question_id] = $answer_id;
-                var_dump($_SESSION);
+        if(!isset($_SESSION)){
+            session_start();
+        }
+
+        if ($question_id >= 0 && $question_id <= 49) {
+            if ($answer_id >= 1 && $answer_id <= 3) {
+                $_SESSION["answ"][$question_id] = (int) $answer_id;
             }
         }
     }

@@ -29,7 +29,7 @@ La documentazione di questo progetto è visionabile cliccando: [documentazione](
 Questo progetto sfruttta molte delle potenzialità di `MySQL` tra le quali troviamo le `stored procedures`.
 
 ### Allegati
-- [QdC: mandato](documents/documentazione.pdf)
-- [Documentazione](documents/questionario_patenti.pdf)
+- [QdC: mandato](documents/questionario_patenti.pdf)
+- [Documentazione](documents/documentazione.md)
 - [Codice sorgente](application)
 - Demo

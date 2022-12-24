@@ -21,6 +21,8 @@
   - [Risultati test](#risultati-test)
   - [Mancanze/limitazioni conosciute](#mancanzelimitazioni-conosciute)
 - [Conclusioni](#conclusioni)
+  - [Samuel Banfi](#samuel-banfi)
+  - [Dennis Donofrio](#dennis-donofrio)
   - [Sviluppi futuri](#sviluppi-futuri)
   - [Considerazioni personali](#considerazioni-personali)
 - [Sitografia](#sitografia)
@@ -475,14 +477,35 @@ Per modficare la domande l'utente amministratore può compilare tutti i campi de
  | Commento |  |
  | Data |  |
 
+<br>
+
 ### Mancanze/limitazioni conosciute
+
+<br>
 
 ## Conclusioni
 
+### Samuel Banfi
+
+Questo progetto mi è servito principalmente per migliorare le mie competenze nel lavoro di squadra. Mi sono trovato molto bene a lavorare con Dennis per riusciamo a capire subito le necessità dell'altro . Se avevo un problema era subito pronto ad aiutarmi e viceversa. Al lavoro avevo già fatto un progetto simile, ma non era così complicato. Per esempio non dovevo gestire l'eliminazione di un utente dopo un determinato tempo. Inoltre ho imparato a gestire meglio la gestione delle pagine grazie alle modal di Bootstrap e ad Ajax per non dover ricaricare la pagina ogni volta che si eseguiva un'operazione sul server. Grazie ad Ajax siamo riusciti ad impostare la risposta dell'utente per una specifica domanda senza dover ricaricare la pagina ogni volta che modificava la sua scelta. Grazie all'eliminazione temporizzata degli utenti ho imparato invece a sfruttare al meglio le possibilità di MySQL con le procedure e gli eventi. Infine sono riuscito a migliorare le mie competenze di gestione di un progetto proprio perché l'abbiamo fatto in squadra, di conseguenza dovevamo gestirci bene per non avere problemi a livello di codice durante il commit e il merge su GitHub (problemi di merge conflict).
+
+<br>
+
+### Dennis Donofrio
+
+<br>
+
 ### Sviluppi futuri
+
+<br>
 
 ### Considerazioni personali
 
+<br>
+
 ## Sitografia
 
- - https://www.php.net/manual/en/function.password-hash.php<br>Data ultima visita: 23.12.2021
+ - https://www.php.net/manual/en/function.password-hash.php <br >Data ultima visita: 11.12.2021
+ - https://www.php.net/manual/en/function.move-uploaded-file.php <br> Data ultima visita: 15.12.2021
+ - https://www.php.net/manual/en/function.file-exists <br> Data ultima visita: 15.12.2021
+ - https://dev.mysql.com/doc/refman/8.0/en/events-overview.html#:~:text=MySQL%20Events%20are%20tasks%20that,a%20specific%20date%20and%20time. <br> Data ultima visita: 24.12.2021

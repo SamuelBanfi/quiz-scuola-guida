@@ -1,32 +1,29 @@
 ## Indice
 
-1. [Introduzione](#introduzione)
-
-    - [Informazioni sul progetto](#informazioni-sul-progetto)
-
-    - [Scopo](#scopo)
-
-2. [Analisi](#analisi)
-
-    - [Analisi e specifica dei requisiti](#analisi-e-specifica-dei-requisiti)
-
-4. [Implementazione](#implementazione)
-
-5. [Test](#test)
-
-    - [Protocollo di test](#protocollo-di-test)
-
-    - [Risultati test](#risultati-test)
-
-    - [Mancanze/limitazioni conosciute](#mancanze/limitazioni-conosciute)
-
-7. [Conclusioni](#conclusioni)
-
-    - [Sviluppi futuri](#sviluppi-futuri)
-
-    - [Considerazioni personali](#considerazioni-personali)
-
-8. [Sitografia](#sitografia)
+- [Indice](#indice)
+- [Introduzione](#introduzione)
+  - [Informazioni sul progetto](#informazioni-sul-progetto)
+  - [Scopo](#scopo)
+- [Analisi](#analisi)
+  - [Analisi e specifica dei requisiti](#analisi-e-specifica-dei-requisiti)
+- [Implementazione](#implementazione)
+  - [Il login](#il-login)
+  - [La sezione Admin](#la-sezione-admin)
+    - [Gestione utenti](#gestione-utenti)
+    - [Registrazione utenti](#registrazione-utenti)
+    - [Modifica utenti](#modifica-utenti)
+    - [Eliminazione utenti](#eliminazione-utenti)
+  - [Gestione domande](#gestione-domande)
+    - [Creazione domande](#creazione-domande)
+    - [Modifica di una domanda](#modifica-di-una-domanda)
+- [Test](#test)
+  - [Protocollo di test](#protocollo-di-test)
+  - [Risultati test](#risultati-test)
+  - [Mancanze/limitazioni conosciute](#mancanzelimitazioni-conosciute)
+- [Conclusioni](#conclusioni)
+  - [Sviluppi futuri](#sviluppi-futuri)
+  - [Considerazioni personali](#considerazioni-personali)
+- [Sitografia](#sitografia)
 
 <br>
 
@@ -380,6 +377,10 @@ Nella sezione admin è possibile gestire le domande. Si possono aggiungere, modi
 
 <br>
 
+Le domande vengono rappresentate con una tabella. Ogni riga della tabella rappresenta una domanda che contiene i campi della tabella `domanda` e dei pulsanti per la modifica e l'eliminazione della domanda. Per la creazione della tabella viene utilizzato il seguente codice:
+
+<br>
+
 ```php
 <table class="table">
     <thead>
@@ -405,9 +406,51 @@ Nella sezione admin è possibile gestire le domande. Si possono aggiungere, modi
 
 <br>
 
+<div align="center">
+    <img src="images/admin/questions/index.png" alt="questions managment page">
+</div>
+
+<br>
+
+Premendo i tasti `VISUALIZZA` si possono vedere le spiegazioni della domanda (testo e video) oppure l'immagine della domanda. Tramite il click viene visualizzato una modal con il testo o il video della spiegazione. Questa scelta torna molto utile perché non bisogna aprire un'altra pagina ma è tutto nella stessa. La modal è una funzionalità di Bootstrap.
+
+<br>
+
 #### Creazione domande
 
-Per la creazione delle domande l'amministratore deve compilare un form con tutti i campi della tabella `domanda`. Una volta compilato il form viene richiamata la funzione `add` della classe `QuestionManager`. Questa funzione esegue una query di inserimento nel database. Viene effettuato un controllo per verificare se sono stati inseriti tutti i campi. Se non vengono compilati tutti i campi viene mostrato un messaggio di errore. In caso contrario viene inserita la domanda nel database e viene effettuato un filtraggio dei campi per evitare attacchi XSS (`Cross Site Scripting`). Viene effettuato un controllo per verificare se la domanda è stata inserita correttamente. Se la domanda è stata inserita correttamente viene mostrato un messaggio di successo. In caso contrario viene mostrato un messaggio di errore.
+Per la creazione delle domande l'amministratore deve compilare un form con tutti i campi della tabella `domanda`. Una volta compilato il form viene richiamata la funzione `add` della classe `QuestionManager`. Questa funzione esegue una query di inserimento nel database. Viene effettuato un controllo per verificare se sono stati inseriti tutti i campi. Se non vengono compilati tutti i campi viene mostrato un messaggio di errore. In caso contrario viene inserita la domanda nel database e viene effettuato un filtraggio dei campi per evitare attacchi XSS (`Cross Site Scripting`). Viene effettuato un controllo per verificare se la domanda è stata inserita correttamente. Se la domanda è stata inserita correttamente viene mostrato un messaggio di successo. In caso contrario viene mostrato un messaggio di errore. <br> L'immagine della domanda non viene salvata nel database ma viene salvata nella cartella `quiz_images` del server. Nel database viene salvato il percorso dell'immagine. In questo modo si ha una maggiore sicurezza e si evitano problemi di dimensione del database. Per quanto riguarda la spiegazione video e la spiegazione testuale abbiamo seguito la stessa logica. Per aggiungere un'immagine caricata tramite l'input `file` bisogna specificare nel form il parametro `enctype="multipart/form-data"` per specificare che il form contiene dati binari. Dal lato del server bisogna specificare il parametro `$_FILES` per accedere ai dati dell'immagine caricata. Per salvare l'immagine abbiamo creato un metodo `generate_name` che si occupa di creare un nome univoco in modo tale da evitare conflitti come ad esempio due immagini con lo stesso nome.
+
+<br>
+
+```php
+private function generate_name()
+{
+    $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    $name = "";
+
+    for ($i = 0; $i < 20; $i++) {
+        $name .= $characters[rand(0, strlen($characters) - 1)];
+    }
+
+    return $name;
+}
+```
+
+<br>
+
+Per l'aggiunta effettiva sul server bisogna utilizzare il metodo `move_uploaded_file` che si occupa di spostare il file temporaneo caricato sul server nella cartella specificata. Il metodo `move_uploaded_file` prende in input il percorso del file temporaneo e il percorso finale. Il percorso finale è costituito dal percorso della cartella dove salvare l'immagine e il nome univoco generato dal metodo `generate_name`. Per eseguire un ulteriore controllo sull'esistenta del file abbiamo usato il metodo `file_exists` che prende in input il percorso del file e restituisce `true` se il file esiste, `false` altrimenti.
+
+<br>
+
+#### Modifica di una domanda
+
+Per modficare la domande l'utente amministratore può compilare tutti i campi della domanda e cliccare sul pulsante `Modifica`. Questo richiama la funzione `update` della classe `QuestionManager`. Questa funzione esegue una query di aggiornamento nel database. Viene effettuato un controllo per verificare se sono stati inseriti tutti i campi. Se non vengono compilati tutti i campi viene mostrato un messaggio di errore. In caso contrario viene aggiornata la domanda nel database.
+
+<br>
+
+<div align="center">
+    <img src="images/admin/questions/edit_question.png" alt="questions managment page">
+</div>
 
 <br>
 

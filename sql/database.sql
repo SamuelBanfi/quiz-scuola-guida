@@ -14,7 +14,7 @@ GRANT EVENT ON quiz_scuola_guida.* TO 'quiz_scuola_guida'@'%';
 
 CREATE TABLE utente
 (
-    email VARCHAR(30) PRIMARY KEY,
+    email VARCHAR(100) PRIMARY KEY,
     nome VARCHAR(20) NOT NULL,
     cognome VARCHAR(20) NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -103,28 +103,31 @@ INSERT INTO impostazioni (limite_tempo,limite_errori,limite_accesso_utente) VALU
 DELIMITER //
 CREATE PROCEDURE elimina_utente()
 BEGIN
+    DECLARE fine_ciclo INT DEFAULT FALSE;
+    DECLARE email VARCHAR(100);
+    DECLARE data_creazione DATETIME;
+    DECLARE admin TINYINT(1);
     DECLARE limite_accesso_utente DATETIME DEFAULT (SELECT limite_accesso_utente FROM impostazioni);
     DECLARE utenti CURSOR FOR SELECT email,data_creazione,admin FROM utente;
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET finito = TRUE;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET fine_ciclo = TRUE;
 
     OPEN utenti;
     loop_utenti: LOOP
-        FETCH utenti INTO email,data_eliminazione,admin;
+        FETCH utenti INTO email,data_creazione,admin;
 
-        IF finito THEN
+        IF fine_ciclo THEN
             LEAVE loop_utenti;
         END IF;
 
-        IF admin = 1 THEN
-            CONTINUE loop_utenti;
-        END IF;
-
-        IF data_creazione + INTERVAL limite_accesso_utente MONTH < NOW() THEN
-            DELETE FROM utente WHERE email = email;
+        IF admin <> 1 THEN
+            IF data_creazione + INTERVAL limite_accesso_utente MONTH < NOW() THEN
+                DELETE FROM utente WHERE email = email;
+            END IF;
         END IF;
     END LOOP;
     CLOSE utenti;
 END
+//
 DELIMITER ;
 
 DELIMITER //
@@ -134,4 +137,5 @@ EVENT evento_elimina_utente
 ON SCHEDULE EVERY 1 DAY
 DO
     CALL elimina_utente();
-// DELIMITER ;
+//
+DELIMITER ;

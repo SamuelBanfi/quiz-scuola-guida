@@ -39,16 +39,84 @@ class Admin extends Controller
 
     public function settings() {
         require_once "application/models/User.php";
+        require_once "application/models/SettingsManager.php";
 
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
 
         if ($this->is_admin()) {
+            if (isset($_SESSION["update_settings_successful"])) {
+                unset($_SESSION["update_settings_successful"]);
+            }
+
+            if (isset($_SESSION["update_settings_fail"])) {
+                unset($_SESSION["update_settings_fail"]);
+            }
+
+            $this->view->limit_errors = SettingsManager::get_limit_errors();
+            $this->view->limit_time = SettingsManager::get_limit_time();
+            $this->view->limit_access = SettingsManager::get_limit_access();
+
             $this->view->render("templates/header", true);
             $this->view->render("admin/index", true);
             $this->view->render("admin/quiz/index", true);
             $this->view->render("templates/footer", true);
         } else {
             header("location: " . URL);
+        }
+    }
+
+    public function update_settings() {
+        require_once "application/models/User.php";
+        require_once "application/models/SettingsManager.php";
+
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+
+        if ($this->is_admin()) {
+            $limit_errors = $_POST["errors"];
+            $limit_time = $_POST["time"];
+            $limit_access = $_POST["access"];
+
+            if (SettingsManager::update_settings($limit_errors, $limit_time, $limit_access)) {
+                $_SESSION["update_settings_successful"] = true;
+
+                if (isset($_SESSION["update_settings_fail"])) {
+                    unset($_SESSION["update_settings_fail"]);
+                }
+
+                $this->view->limit_errors = SettingsManager::get_limit_errors();
+                $this->view->limit_time = SettingsManager::get_limit_time();
+                $this->view->limit_access = SettingsManager::get_limit_access();
+            } else {
+                $_SESSION["update_settings_fail"] = true;
+
+                if (isset($_SESSION["update_settings_successful"])) {
+                    unset($_SESSION["update_settings_successful"]);
+                }
+
+                $this->view->limit_errors = SettingsManager::get_limit_errors();
+                $this->view->limit_time = SettingsManager::get_limit_time();
+                $this->view->limit_access = SettingsManager::get_limit_access();
+            }
+
+            $this->view->render("templates/header", true);
+            $this->view->render("admin/index", true);
+            $this->view->render("admin/quiz/index", true);
+            $this->view->render("templates/footer", true);
+        } else {
+            $_SESSION["update_settings_fail"] = true;
+
+            if (isset($_SESSION["update_settings_successful"])) {
+                unset($_SESSION["update_settings_successful"]);
+            }
+
+            $this->view->render("templates/header", true);
+            $this->view->render("admin/index", true);
+            $this->view->render("admin/quiz/index", true);
+            $this->view->render("templates/footer", true);
         }
     }
 

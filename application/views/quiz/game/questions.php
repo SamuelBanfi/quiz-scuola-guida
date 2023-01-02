@@ -1,6 +1,7 @@
 <?php $counter = 1; ?>
 <div class="container">
     <h1 class="text-center">Quiz</h1>
+    <div class="mt-3"></div>
     <table class="table">
         <?php for ($i = 0; $i < 5; $i++): ?>
             <tr>

@@ -6,7 +6,10 @@
         <div class="question ms-5" style="flex: 1">
             <div class="time">
                 <div>
-                    <p><?php echo $this->question->get_question(); ?></p>
+                    <div class="form-control">
+                        <p><?php echo $this->question->get_question(); ?></p>
+                    </div>
+                    <div class="mt-3"></div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" id="1" name="q-1" onclick="setQuestion(this, <?php echo $this->id; ?>, '<?php echo URL; ?>/quiz/set_question')" <?php echo $_SESSION["answ"][$this->id - 1] == 1 ? "checked" : ""; ?>>
                         <label class="form-check-label" for="r1">
@@ -26,16 +29,19 @@
                         </label>
                     </div>
                 </div>
-                <br>
+                <div class="mt-3"></div>
                 <p>
                     Spiegazione:
                     <a href="<?php echo URL . $this->question->get_textual_explanation(); ?>">testo</a>,
                     <a href="<?php echo URL . $this->question->get_video_explanation(); ?>">video</a>
                 </p>
+                <div class="mt-5"></div>
+                <div class="d-flex justify-content-between">
+                    <a href="<?php echo URL . "quiz/game/" . (($this->id - 1 <= 0) ? 50 : $this->id - 1); ?>" class="btn btn-dark">&larr; Precedente</a>
+                    <a href="<?php echo URL . "quiz/stop"; ?>" class="btn btn-danger">&#9873; Termina &#9873;</a>
+                    <a href="<?php echo URL . "quiz/game/" . (($this->id - 1 >= 49) ? 1 : $this->id + 1); ?>" class="btn btn-dark">Successivo &rarr;</a>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="d-flex justify-content-evenly">
-
     </div>
 </div>

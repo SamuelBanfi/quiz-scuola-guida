@@ -17,7 +17,9 @@
     <ul class="nav nav-pills">
         <?php if (isset($_SESSION['user'])): ?>
             <li class="nav-item"><a href="<?php echo URL; ?>" class="nav-link">Quiz</a></li>
-            <li class="nav-item"><a href="<?php echo URL . "admin"; ?>" class="nav-link">Admin</a></li>
+            <?php if ($_SESSION['user']->get_admin() == 1): ?>
+                <li class="nav-item"><a href="<?php echo URL . "admin"; ?>" class="nav-link">Admin</a></li>
+            <?php endif; ?>
             <li class="nav-item"><a href="<?php echo URL . "home/logout"; ?>" class="nav-link">Logout</a></li>
         <?php endif; ?>
     </ul>

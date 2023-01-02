@@ -136,4 +136,10 @@ class QuestionManager
             }
         }
     }
+
+    public static function get_limit_errors() {
+        require_once "application/models/SettingsManager.php";
+
+        return SettingsManager::get_limit_errors();
+    }
 }

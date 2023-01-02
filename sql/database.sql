@@ -2,10 +2,10 @@ DROP DATABASE IF EXISTS quiz_scuola_guida;
 CREATE DATABASE quiz_scuola_guida;
 USE quiz_scuola_guida;
 
-SET GLOBAL event_scheduler = ON;
+/*SET GLOBAL event_scheduler = ON;
 SET @@global.event_scheduler = ON;
 SET GLOBAL event_scheduler = 1;
-SET @@global.event_scheduler = 1;
+SET @@global.event_scheduler = 1;*/
 
 CREATE TABLE utente
 (
@@ -14,14 +14,13 @@ CREATE TABLE utente
     cognome VARCHAR(20) NOT NULL,
     password VARCHAR(255) NOT NULL,
     admin TINYINT(1) NOT NULL,
-    data_creazione DATETIME DEFAULT CURRENT_TIMESTAMP
+    data_creazione DATETIME NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO utente VALUES("admin@gmail.com", "Admin", "istrator", "$2y$10$rt2kMEp4Ij2olyRLj2RA/uQ31zOTRbkNCF3fc7cPhAAQJjyYuIHOK", 1);
-INSERT INTO utente VALUES("gino@gmail.com", "Gino", "Admin", "$2y$10$rt2kMEp4Ij2olyRLj2RA/uQ31zOTRbkNCF3fc7cPhAAQJjyYuIHOK", 1);
-INSERT INTO utente VALUES("samuel@gmail.com", "Samuel", "Banfi", "$2y$10$rt2kMEp4Ij2olyRLj2RA/uQ31zOTRbkNCF3fc7cPhAAQJjyYuIHOK", 0, '2022-05-12 12:12:12');
-INSERT INTO utente VALUES("dennis@gmail.com", "Dennis", "Donofrio", "$2y$10$rt2kMEp4Ij2olyRLj2RA/uQ31zOTRbkNCF3fc7cPhAAQJjyYuIHOK", 0, '2022-06-13 15:15:15');
-INSERT INTO utente VALUES("damian@gmail.com", "Damian", "Campesi", "$2y$10$rt2kMEp4Ij2olyRLj2RA/uQ31zOTRbkNCF3fc7cPhAAQJjyYuIHOK", 0, '');
+INSERT INTO utente(email,nome,cognome,password,admin) VALUES("admin@gmail.com", "Admin", "istrator", "$2y$10$rt2kMEp4Ij2olyRLj2RA/uQ31zOTRbkNCF3fc7cPhAAQJjyYuIHOK", 1);
+INSERT INTO utente(email,nome,cognome,password,admin) VALUES("gino@gmail.com", "Gino", "Admin", "$2y$10$rt2kMEp4Ij2olyRLj2RA/uQ31zOTRbkNCF3fc7cPhAAQJjyYuIHOK", 1);
+INSERT INTO utente(email,nome,cognome,password,admin) VALUES("samuel@gmail.com", "Samuel", "Banfi", "$2y$10$rt2kMEp4Ij2olyRLj2RA/uQ31zOTRbkNCF3fc7cPhAAQJjyYuIHOK", 0);
+INSERT INTO utente(email,nome,cognome,password,admin) VALUES("dennis@gmail.com", "Dennis", "Donofrio", "$2y$10$rt2kMEp4Ij2olyRLj2RA/uQ31zOTRbkNCF3fc7cPhAAQJjyYuIHOK", 0);
 
 CREATE TABLE domanda
 (
@@ -94,6 +93,8 @@ CREATE TABLE impostazioni
     limite_accesso_utente INT NOT NULL DEFAULT 1
 );
 
+INSERT INTO impostazioni (limite_tempo,limite_errori,limite_accesso_utente) VALUES (-1, 3, 1);
+
 DELIMITER //
 CREATE PROCEDURE elimina_utente()
 BEGIN
@@ -120,10 +121,11 @@ BEGIN
     CLOSE utenti;
 END
 DELIMITER ;
-
+/*
 DELIMITER //
 CREATE EVENT evento_elimina_utente
 ON SCHEDULE EVERY 1 DAY
 DO
     CALL elimina_utente();
 // DELIMITER ;
+*/

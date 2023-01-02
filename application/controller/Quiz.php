@@ -34,8 +34,15 @@ class Quiz extends Controller
                 header("location: " . URL);
             }
 
-            $questions = QuestionManager::get_all_questions();
-            shuffle($questions);
+            $all_questions = QuestionManager::get_all_questions();
+            $questions = array();
+            
+            shuffle($all_questions);
+
+            for ($i = 0; $i < 50; $i++) {
+                $questions[] = $all_questions[$i];
+            }
+
             $_SESSION["questions"] = $questions;
 
             $answers = array();
@@ -43,6 +50,8 @@ class Quiz extends Controller
                 $answers[] = -1;
             }
             $_SESSION["answ"] = $answers;
+
+            $_SESSION["start_time"] = time();
 
             unset($_SESSION["error_question_count"]);
 
@@ -115,6 +124,39 @@ class Quiz extends Controller
         }
 
         QuestionManager::set_answer($_POST['qid'] - 1, $_POST['aid']);
+    }
+
+    public function get_limit_time() {
+        require_once 'application/models/User.php';
+        require_once 'application/models/SettingsManager.php';
+
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+
+        if (!$this->is_logged()) {
+            header("location: " . URL);
+        }
+
+        echo SettingsManager::get_limit_time();
+    }
+
+    public function get_remaining_time() {
+        require_once 'application/models/User.php';
+        require_once 'application/models/SettingsManager.php';
+
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+
+        if (!$this->is_logged()) {
+            header("location: " . URL);
+        }
+
+        $limit_time = SettingsManager::get_limit_time() * 60;
+        $remaining_time = $limit_time - (time() - $_SESSION["start_time"]);
+
+        echo $remaining_time;
     }
 
     private function get_count_correct_answers() {

@@ -290,7 +290,7 @@ class Admin extends Controller
                 unset($_SESSION["update_user_fail"]);
             }
 
-            $user = UserManager::get_user($email);
+            $this->view->user = UserManager::get_user($email);
 
             $this->view->render("templates/header", true);
             $this->view->render("admin/index", true);
@@ -335,7 +335,7 @@ class Admin extends Controller
                 }
             }
 
-            $user = UserManager::get_user($email);
+            $this->view->user = UserManager::get_user($email);
 
             $this->view->render("templates/header", true);
             $this->view->render("admin/index", true);
@@ -375,10 +375,12 @@ class Admin extends Controller
     public function update_question() {
         require "application/models/QuestionManager.php";
         require_once "application/models/Question.php";
+        require_once "application/models/User.php";
 
         session_start();
 
         if ($this->is_admin()) {
+            $id = $_POST["id"];
             $question = $_POST["question"];
             $image = $_FILES["image"];
             $answer_1 = $_POST["answer_1"];
@@ -392,8 +394,8 @@ class Admin extends Controller
             $path_textual = $this->save_file($textual_explanation, "application/textual_explanations/");
             $path_video = $this->save_file($video_explanation, "application/video_explanations/");
 
-            if (QuestionManager::add($question, $path_image, $answer_1, $answer_2, $answer_3,
-                $correct_answer, $path_textual, $path_video)) {
+            if (QuestionManager::update($question, $path_image, $answer_1, $answer_2, $answer_3,
+                $correct_answer, $path_textual, $path_video, $id)) {
                 $_SESSION["create_question_successful"] = true;
 
                 if (isset($_SESSION["create_question_fail"])) {
@@ -407,9 +409,11 @@ class Admin extends Controller
                 }
             }
 
+            $this->view->question = QuestionManager::get_question($id);
+
             $this->view->render("templates/header", true);
             $this->view->render("admin/index", true);
-            $this->view->render("admin/questions/add", true);
+            $this->view->render("admin/questions/edit", true);
             $this->view->render("templates/footer", true);
         } else {
             header("location: " . URL);
@@ -486,6 +490,12 @@ class Admin extends Controller
 
     private function is_admin()
     {
+        require_once "application/models/User.php";
+
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+
         if (isset($_SESSION["user"])) {
             return strcmp($_SESSION["user"]->get_admin(), "1") == 0;
         } else {

@@ -36,14 +36,14 @@
                 <td><textarea class="form-control" disabled><?php echo $question->get_question(); ?></textarea></td>
                 <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#showImage<?php echo $lap; ?>">Visualizza</button>
                 <div class="modal fade" id="showImage<?php echo $lap; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Image explanation</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <img src="<?php echo URL . $question->get_image(); ?>" >
+                                <img src="<?php echo URL . $question->get_image(); ?>" class="img-fluid">
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
@@ -57,7 +57,7 @@
                 <td><?php echo $question->get_correct_answer(); ?></td>
                 <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#showTextual<?php echo $lap; ?>">Visualizza</button>
                 <div class="modal fade" id="showTextual<?php echo $lap; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Textual explanation</h1>
@@ -76,15 +76,17 @@
 
                 <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#showVideo<?php echo $lap; ?>">Visualizza</button>
                 <div class="modal fade" id="showVideo<?php echo $lap; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Video explanation</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <div class="embed-responsive embed-responsive-16by9">
-                                    <iframe class="embed-responsive-item" src="<?php echo URL . $question->get_video_explanation(); ?>"></iframe>
+                                <div class="d-flex justify-content-center">
+                                    <video class="" width="95%" controls>
+                                        <source src="<?php echo URL . $question->get_video_explanation(); ?>" type="video/mp4">
+                                    </video>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -110,7 +112,7 @@
         </tbody>
     </table>
 
-<!-- Modal -->
+<!--
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
@@ -127,4 +129,4 @@
       </div>
     </div>
   </div>
-</div>
+</div>-->

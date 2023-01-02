@@ -88,6 +88,36 @@ class QuestionManager
         }
     }
 
+    public static function update($question, $image, $answer_1, $answer_2, $answer_3,
+                               $correct_answer, $textual_explanation, $video_explanation, $id) {
+        require_once "application/models/Database.php";
+
+        $conn = Database::get_connection();
+        $query = "UPDATE domanda SET testo = :question, immagine = :image, risposta_1 = :answer_1, risposta_2 = :answer_2, risposta_3 = :answer_3,
+                    risposta_corretta = :correct_answer, spiegazione_testo = :textual_explanation, spiegazione_video = video_explanation) 
+                    WHERE id = :id";
+        $params = array(
+            ':question' => $question,
+            ':image' => $image,
+            ':answer_1' => $answer_1,
+            ':answer_2' => $answer_2,
+            ':answer_3' => $answer_3,
+            ':correct_answer' => $correct_answer,
+            'textual_explanation' => $textual_explanation,
+            'video_explanation' => $video_explanation,
+            ':id' => $id
+        );
+
+        try {
+            $stmt = $conn->prepare($query);
+            $stmt->execute($params);
+
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
     public static function delete($id) {
         require_once "application/models/Database.php";
 
@@ -103,9 +133,9 @@ class QuestionManager
             $files_to_delete = array();
 
             if (count($result) == 1) {
-                $files_to_delete[] = $result[0]["immagine"];
-                $files_to_delete[] = $result[0]["spiegazione_testo"];
-                $files_to_delete[] = $result[0]["spiegazione_video"];
+                $files_to_delete[] = URL . $result[0]["immagine"];
+                $files_to_delete[] = URL . $result[0]["spiegazione_testo"];
+                $files_to_delete[] = URL . $result[0]["spiegazione_video"];
 
                 $stmt->closeCursor();
                 $query = "DELETE FROM domanda WHERE id = :id";
@@ -115,10 +145,10 @@ class QuestionManager
 
                 // Unlink related question files (delete from server)
                 for ($i = 0; $i < count($files_to_delete); $i++) {
-                    if (!unlink($files_to_delete[$i])) {
-                        return false;
-                    }
+                    @unlink($files_to_delete[$i]);
                 }
+
+                return true;
             }
         } catch (PDOException $e) {
             return false;

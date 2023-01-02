@@ -2,10 +2,15 @@ DROP DATABASE IF EXISTS quiz_scuola_guida;
 CREATE DATABASE quiz_scuola_guida;
 USE quiz_scuola_guida;
 
-/*SET GLOBAL event_scheduler = ON;
+SET GLOBAL event_scheduler = ON;
 SET @@global.event_scheduler = ON;
 SET GLOBAL event_scheduler = 1;
-SET @@global.event_scheduler = 1;*/
+SET @@global.event_scheduler = 1;
+
+DROP USER IF EXISTS 'quiz_scuola_guida'@'%';
+CREATE USER 'quiz_scuola_guida'@'%' IDENTIFIED BY 'quiz_scuola_guida';
+GRANT SELECT,INSERT,UPDATE,DELETE ON quiz_scuola_guida.* TO 'quiz_scuola_guida'@'%';
+GRANT EVENT ON quiz_scuola_guida.* TO 'quiz_scuola_guida'@'%';
 
 CREATE TABLE utente
 (
@@ -121,11 +126,12 @@ BEGIN
     CLOSE utenti;
 END
 DELIMITER ;
-/*
+
 DELIMITER //
-CREATE EVENT evento_elimina_utente
+CREATE
+DEFINER = 'quiz_scuola_guida'@'%'
+EVENT evento_elimina_utente
 ON SCHEDULE EVERY 1 DAY
 DO
     CALL elimina_utente();
 // DELIMITER ;
-*/

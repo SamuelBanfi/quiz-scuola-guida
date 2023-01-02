@@ -1,7 +1,7 @@
 <div class="container">
     <div class="d-flex">
         <div class="image" style="flex: 1">
-            <img class="img-thumbnail" src="<?php echo URL . $this->question->get_image(); ?>" alt="immagine">
+            <img class="img-fluid" src="<?php echo URL . $this->question->get_image(); ?>" alt="immagine">
         </div>
         <div class="question ms-5" style="flex: 1">
             <div class="time">

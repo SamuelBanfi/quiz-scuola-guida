@@ -10,7 +10,7 @@
                 <?php else: ?>
                     <span style="color:red">bocciato</span>
                 <?php endif; ?>
-                </h3>
+            </h3>
         </div>
         <div>
             <h3>Limite errori: <?php echo $this->limit_errors; ?></h3>

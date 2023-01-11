@@ -2,7 +2,7 @@
 
 abstract class Database
 {
-    public static $hostname = "25.51.133.86";
+    public static $hostname = "127.0.0.1";
     public static $user = "quiz_scuola_guida";
     public static $pass = "quiz_scuola_guida";
 
